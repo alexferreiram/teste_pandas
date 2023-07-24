@@ -1,5 +1,8 @@
 # -*- coding: utf-8 -*-
-# @Author  : Paulo Radatz
-# @Email   : paulo.radatz@gmail.com
-# @File    : 1-creating_dss_obj.py
+# @Author  : Alex Ferreira
+# @Email   : alex.ferreiram@ufpe.br
+# @File    : main.py
 # @Software: PyCharm
+
+import pandas as pd
+
