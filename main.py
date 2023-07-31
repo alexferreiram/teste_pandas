@@ -80,10 +80,6 @@ while contador <= 1:
     t = arq3.readline()
 arq3.close()
 
-
-
-
-
 df_cargaprev = pd.DataFrame(demanda)
 df_gerpequsi = pd.DataFrame(pequsinas)
 df_dadosrede = pd.DataFrame(dadosrede)
