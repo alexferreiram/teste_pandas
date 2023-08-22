@@ -6,31 +6,36 @@
 
 import pandas as pd
 
-# datframe_pd = pd.read_csv("coloncancer.txt", delim_whitespace=True)
-# a = datframe_pd.describe()
-# print(datframe_pd)
+# criando dicionário demanda
+demanda = {
+ 'subsistema': [], 'semihora': [], 'MW': []
+}
 
-demanda = dict()
-demanda['subsistema'] = list()
-demanda['semihora'] = list()
-demanda['MW'] = list()
-
-pequsinas = dict()
-pequsinas['subsistema'] = list()
-pequsinas['semihora'] = list()
-pequsinas['Eolic'] = list()
-pequsinas['Hidra'] = list()
-pequsinas['Solar'] = list()
-pequsinas['Termi'] = list()
+# criando dicionário pequsinas
+pequsinas = {
+ 'subsistema': [], 'semihora': [], 'Eolic': [], 'Hidra': [], 'Solar': [], 'Termi': []
+}
 pulo = 0 # 30*2 variável add para ler outros dias
 
-dadosrede = dict()
-dadosrede["Patamar"] = list()
-dadosrede["NuBar"] = list()
-dadosrede["Status"] = list()
-dadosrede["subsistema"] = list()
-dadosrede["Area"] = list()
-dadosrede["MW"] = list()
+# criando dicionário dadosrede
+dadosrede = {
+ "Patamar": [], "NuBar": [], "Status": [], "subsistema": [], "Area": [], "MW": []
+}
+
+# criando dicionário danc
+danc = {
+        "Area": [],
+        "Pat01": [], "Pat02": [], "Pat03": [], "Pat04": [], "Pat05": [],
+        "Pat06": [], "Pat07": [], "Pat08": [], "Pat09": [], "Pat10": [],
+        "Pat11": [], "Pat12": [], "Pat13": [], "Pat14": [], "Pat15": [],
+        "Pat16": [], "Pat17": [], "Pat18": [], "Pat19": [], "Pat20": [],
+        "Pat21": [], "Pat22": [], "Pat23": [], "Pat24": [], "Pat25": [],
+        "Pat26": [], "Pat27": [], "Pat28": [], "Pat29": [], "Pat30": [],
+        "Pat31": [], "Pat32": [], "Pat33": [], "Pat34": [], "Pat35": [],
+        "Pat36": [], "Pat37": [], "Pat38": [], "Pat39": [], "Pat40": [],
+        "Pat41": [], "Pat42": [], "Pat43": [], "Pat44": [], "Pat45": [],
+        "Pat46": [], "Pat47": [], "Pat48": []
+    }
 
 # leitura prev carga
 arq1 = open("arqcargaprev.txt", "r")
@@ -80,8 +85,36 @@ while contador <= 1:
     t = arq3.readline()
 arq3.close()
 
+# leitura danc
+arq4 = open("AreaDANC.txt", "r")
+u = arq4.readline()
+contador = 0
+
+while u[:5] != "TEMPO":
+    if u[:4] == "----":
+        u = arq4.readline()
+        continue
+    elif u[:4] == "AREA":
+        u = arq4.readline()
+        continue
+    else:
+        a = 5
+        for i in range(1, 49):
+            b = a + 6
+            danc[f"Pat{i:02d}"].append(u[a:b])
+            a = b + 1
+        danc["Area"].append(int(u[:4]))
+        u = arq4.readline()
+arq4.close()
+
 df_cargaprev = pd.DataFrame(demanda)
 df_gerpequsi = pd.DataFrame(pequsinas)
 df_dadosrede = pd.DataFrame(dadosrede)
+df_danc = pd.DataFrame(danc)
+
+
+# eliminar áreas com DANC 0.00
+df_danc = df_danc[df_danc["Pat01"] != '  0.00']
+
 
 print("teste")
